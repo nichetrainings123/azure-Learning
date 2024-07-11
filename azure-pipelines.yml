@@ -1,15 +1,19 @@
 # Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Visual Studio Enterprise Subscription (3bc037e8-16d9-41ed-8f5f-149eb5e80111)'
+    appType: 'webApp'
+    appName: 'lab841226'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'
+
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
