@@ -1,4 +1,3 @@
-# Starter pipeline
 trigger:
 - main
 
@@ -6,6 +5,16 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: DownloadBuildArtifacts@0
+  inputs:
+    buildType: 'current'
+    downloadType: 'single'
+    artifactName: 'drop'
+    downloadPath: '$(System.DefaultWorkingDirectory)'
+
+- script: ls $(System.DefaultWorkingDirectory)
+  displayName: 'List files in default working directory'
+
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'Visual Studio Enterprise Subscription (3bc037e8-16d9-41ed-8f5f-149eb5e80111)'
@@ -14,10 +23,3 @@ steps:
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
 
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
